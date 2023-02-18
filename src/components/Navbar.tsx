@@ -1,15 +1,16 @@
 import React, {FC} from 'react';
 import { Layout, Menu, Row } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../hooks/redux';
 
 const Navbar: FC = () => {
 	let navigate = useNavigate();
 	 
-	const auth = true;
+	const {accessToken} = useAppSelector(state => state.authReducer)
 	return (
 		<Layout.Header>
 			<Row justify='end'>
-				{auth
+				{accessToken
 					?
 					<>
 						<div style={{color: 'white'}}>

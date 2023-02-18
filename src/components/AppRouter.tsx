@@ -1,16 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useAppSelector } from '../hooks/redux';
+import { isAuth } from '../services/authService';
 import { Loading } from './Loading';
 const Login  = React.lazy(() => import('../pages/Login'));
 const Event  = React.lazy(() => import('../pages/Event'));
 
-// import { privateRoutes, publicRoutes } from '../router'; 
 
 const AppRouter = () => {
-	const auth = true;
+	const {isLoggedin} = useAppSelector(state => state.authReducer)
+	console.log('isLoggedin', isLoggedin)
+	console.log('isAuth', isAuth())
 	return (
 		<React.Suspense fallback={<Loading />}>
-			{auth
+			{isLoggedin || isAuth()
 			?
 			<Routes>
 				<Route path='/' element={<Event />} />
