@@ -1,13 +1,31 @@
 import React, {FC, useEffect, useState} from 'react';
 import {Button, Layout, Modal, Row} from "antd";
 import { useAppSelector } from '../hooks/redux';
+import EventCalendar from '../components/EventCalendar';
+import EventForm from '../components/EventForm';
+import { IEvent } from '../models/IEvent';
+import { getUser } from '../services/storage';
+import { EventActionCreators } from '../store/reducers/EventSlice';
 
 const Event: FC = () => {
-	 const [modalVisible, setModalVisible] = useState(false);
-    // const {guests,events} = useAppSelector(state => state.event);
+	const [modalVisible, setModalVisible] = useState(false);
+    const {guests, events} = useAppSelector(state => state.eventReducer);
+	
+	// const {user} = useAppSelector(state => state.authReducer)
+	const user = getUser();
+
+	useEffect(() => {
+        EventActionCreators.fetchGuests()
+        EventActionCreators.fetchEvents(user);
+    }, [])
+
+    const addNewEvent = (event: IEvent) => {
+        setModalVisible(false);
+        EventActionCreators.createEvent(event);
+    }
 	return (
 		 <Layout>
-            {/* <EventCalendar events={events}/> */}
+            <EventCalendar events={events}/>
             <Row justify="center">
                 <Button
                     onClick={() => setModalVisible(true)}
@@ -21,10 +39,10 @@ const Event: FC = () => {
                 footer={null}
                 onCancel={() => setModalVisible(false)}
             >
-                {/* <EventForm
+                <EventForm
                     guests={guests}
                     submit={addNewEvent}
-                /> */}
+                />
             </Modal>
         </Layout>
 	)

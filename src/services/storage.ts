@@ -5,10 +5,11 @@ export const setTokens = (authRes: any) => {
   };
   
   export const removeTokens = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('token');
+    // localStorage.removeItem('user');
+    // localStorage.removeItem('accessToken');
+    // localStorage.removeItem('refreshToken');
+    // localStorage.removeItem('token');
+	localStorage.clear()
   };
   export const getAccessToken = () => localStorage.getItem('token')?.slice(1, -1);
   export const getUser = () => localStorage.getItem('user');

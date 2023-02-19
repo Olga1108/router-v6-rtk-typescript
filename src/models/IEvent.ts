@@ -1,5 +1,5 @@
 export interface IEvent {
-	author: string;
+	author: string | null;
 	guest: string;
 	date: string;
 	description: string;

@@ -1,10 +1,11 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Button, DatePicker, Form, Input, Row, Select} from "antd";
 import {rules} from "../utils/rules";
 import {IUser} from "../models/IUser";
 import {IEvent} from "../models/IEvent";
 import type { Dayjs } from 'dayjs';
 import {formatDate} from "../utils/date";
+import { getUser } from '../services/storage';
 import { useAppSelector } from '../hooks/redux'; 
 
 interface EventFormProps {
@@ -13,6 +14,13 @@ interface EventFormProps {
 }
 
 const EventForm: FC<EventFormProps> = (props) => {
+	let user = getUser()
+	const [currentUser, setCurrentUser] = useState<string | null>(user);
+
+	useEffect(() => {
+		setCurrentUser(user)	
+	}, [user])
+
     const [event, setEvent] = useState<IEvent>({
         author: '',
         date: '',
@@ -28,7 +36,7 @@ const EventForm: FC<EventFormProps> = (props) => {
     }
 
     const submitForm = () => {
-        props.submit({...event, author: ''})
+        props.submit({...event, author: currentUser})
     }
 
     return (
